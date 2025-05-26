@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Research Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .search-filter { margin-bottom: 20px; }
+    .card { border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+    .topic { font-weight: bold; font-size: 18px; color: #333; }
+    .analyst { font-style: italic; color: #666; }
+  </style>
+</head>
+<body>
+
+  <h1>Daily Research Dashboard</h1>
+  <div class="search-filter">
+    <input type="text" id="searchInput" placeholder="Search by keyword..." onkeyup="filterCards()" style="width: 250px; padding: 5px;">
+    <select id="analystFilter" onchange="filterCards()" style="padding: 5px;">
+      <option value="">All Analysts</option>
+      <option value="Person 1">Person 1</option>
+      <option value="Person 2">Person 2</option>
+    </select>
+  </div>
+
+  <div id="dashboard"></div>
+
+  <script>
+    const data = [{'topic': 'India-UK Free Trade Agreement(FTA)', 'notes': 'The trade deal, once implemented, may make imports cheaper for whisky, automobiles, etc.', 'analyst': 'Person 1'}, {'topic': 'US Pharma Domestic Push', 'notes': 'US President’s executive order promotes domestic manufacturing of pharmaceuticals.', 'analyst': 'Person 1'}, {'topic': 'BoB Result and CEO interview', 'notes': 'Interest margins are expected to improve from Q1 FY26 according to the CEO.', 'analyst': 'Person 1'}, {'topic': 'Ather Enters 125-300cc EV segment', 'notes': 'Ather Energy expands its offering to mid-range electric scooters to boost market share.', 'analyst': 'Person 1'}, {'topic': 'Yes Bank Stake Clarification', 'notes': 'Yes Bank clarified that discussions around promoter stake sale are speculative.', 'analyst': 'Person 1'}, {'topic': 'Union Bank MD Interview', 'notes': 'Union Bank CEO stated focus will shift to rural lending and digitization.', 'analyst': 'Person 2'}, {'topic': 'Bira Revenue Dip', 'notes': 'Bira’s financial filings showed a revenue dip in Q4 FY25, raising investor concerns.', 'analyst': 'Person 2'}];
+
+    function renderDashboard(filtered = data) {
+      const dashboard = document.getElementById('dashboard');
+      dashboard.innerHTML = '';
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<div class="topic">${item.topic}</div>
+                          <div class="analyst">${item.analyst}</div>
+                          <div class="notes">${item.notes}</div>`;
+        dashboard.appendChild(card);
+      });
+    }
+
+    function filterCards() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      const analyst = document.getElementById('analystFilter').value;
+      const filtered = data.filter(item =>
+        (item.topic.toLowerCase().includes(keyword) || item.notes.toLowerCase().includes(keyword)) &&
+        (analyst === '' || item.analyst === analyst)
+      );
+      renderDashboard(filtered);
+    }
+
+    renderDashboard();
+  </script>
+
+</body>
+</html>
